@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>STARS & PREMIUM Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* --- ASOSIY STILLAR --- */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            background-size: 400% 400%;
+            animation: bgAnim 15s ease infinite;
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @keyframes bgAnim {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 450px;
+            margin: auto;
+            padding: 30px 20px;
+            perspective: 1000px;
+        }
+
+        /* --- HEADER QISMI --- */
+        .header-3d {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .main-star {
+            font-size: 70px;
+            display: inline-block;
+            text-shadow: 0 0 20px gold;
+            animation: floatStar 3s ease-in-out infinite;
+        }
+
+        @keyframes floatStar {
+            0%, 100% { transform: translateY(0) rotateY(0deg); }
+            50% { transform: translateY(-10px) rotateY(180deg); }
+        }
+
+        h1 {
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+            font-size: 24px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        /* Bo'lim sarlavhasi */
+        .section-title {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            text-transform: uppercase;
+            margin: 25px 0 15px 5px;
+            letter-spacing: 1px;
+            border-left: 3px solid;
+            padding-left: 10px;
+        }
+        .title-gold { border-color: gold; }
+        .title-premium { border-color: #a066ff; }
+
+        /* --- KARTOCHKALAR (GLASSMORPHISM + 3D) --- */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            transition: transform 0.1s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        .card-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            pointer-events: none;
+            transform: translateZ(20px);
+        }
+
+        /* --- IKONKALAR --- */
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Sariq Yulduz dizayni */
+        .style-star {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Premium (Binafsha) dizayn */
+        .style-premium {
+            background: linear-gradient(135deg, #a066ff, #6c00ff);
+            box-shadow: 0 0 20px rgba(160, 102, 255, 0.6);
+        }
+
+        /* Yaltirash effekti */
+        .icon-box::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.8), transparent);
+            transform: translateX(-100%);
+            animation: shine 2.5s infinite;
+        }
+
+        @keyframes shine { 100% { transform: translateX(100%); } }
+
+        .info h3 { margin: 0; font-size: 17px; color: white; }
+        .info p { margin: 3px 0 0; font-size: 14px; color: #ccc; }
+        
+        .text-gold { color: #ffd700 !important; }
+        .text-premium { color: #dcbdfc !important; }
+
+        /* --- TUGMA --- */
+        .btn-buy {
+            border: none;
+            padding: 8px 18px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transform: translateZ(30px);
+            transition: all 0.3s;
+            color: white;
+            font-size: 13px;
+        }
+
+        .btn-gold {
+            background: #2f80ed;
+            box-shadow: 0 4px 10px rgba(47, 128, 237, 0.4);
+        }
+        
+        .btn-premium {
+            background: linear-gradient(90deg, #8e2de2, #4a00e0);
+            box-shadow: 0 4px 15px rgba(138, 45, 226, 0.5);
+        }
+
+        .btn-buy:active { transform: translateZ(20px) scale(0.95); }
+
+        /* --- NOTIFICATION --- */
+        #notification {
+            visibility: hidden;
+            min-width: 250px;
+            background: rgba(20, 20, 20, 0.95);
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            padding: 16px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 16px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.7);
+            border: 1px solid #444;
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        #notification.show { visibility: visible; opacity: 1; bottom: 50px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-3d">
+        <div class="main-star">⚡</div>
+        <h1>STARS MC</h1>
+        <h3>24/7</h3>
+    </div>
+
+    <div class="section-title title-gold">⭐️ Telegram Stars</div>
+    <div id="stars-list"></div>
+
+    <div class="section-title title-premium">💎 Telegram Premium</div>
+    <div id="premium-list"></div>
+</div>
+
+<div id="notification">🚀 Telegram ochilmoqda...</div>
+
+<script>
+    const ADMIN_USERNAME = "temur_ms";
+
+    // 1. Stars Ma'lumotlari
+    const starsData = [
+        { name: "50 Stars", price: "12 000" },
+        { name: "75 Stars", price: "17 200" },
+        { name: "100 Stars", price: "22 500" },
+        { name: "200 Stars", price: "44 000" },
+        { name: "250 Stars", price: "54 750" },
+        { name: "1000 Stars", price: "202 000" },
+        { name: "5000 Stars", price: "999 999" }
+    ];
+
+    // 2. Yangi qo'shilgan Premium ma'lumotlari
+    const premiumData = [
+        { name: "3 Oylik", price: "175 000" },
+        { name: "6 Oylik", price: "235 000" },
+        { name: "12 Oylik", price: "405 000" }
+    ];
+
+    // Kartochka yaratish funksiyasi (Universal)
+    function createCard(item, type, containerId) {
+        const container = document.getElementById(containerId);
+        const card = document.createElement("div");
+        card.className = "card";
+
+        // Stilni aniqlash (Stars yoki Premium)
+        const isPremium = type === 'premium';
+        const iconClass = isPremium ? "style-premium" : "style-star";
+        const textClass = isPremium ? "text-premium" : "text-gold";
+        const btnClass  = isPremium ? "btn-premium" : "btn-gold";
+        const iconSymbol = isPremium ? "💎" : "★"; // Premiumga olmos, Starsga yulduz
+
+        // 3D Tilt hodisalari
+        card.addEventListener('mousemove', handleTilt);
+        card.addEventListener('mouseleave', resetTilt);
+
+        card.innerHTML = `
+            <div class="card-left">
+                <div class="icon-box ${iconClass}">${iconSymbol}</div>
+                <div class="info">
+                    <h3 class="${textClass}">${item.name}</h3>
+                    <p>${item.price} so‘m</p>
+                </div>
+            </div>
+        `;
+
+        const btn = document.createElement("button");
+        btn.className = "btn-buy " + btnClass;
+        btn.textContent = "OLISH";
+        
+        btn.onclick = function() {
+            if (navigator.vibrate) navigator.vibrate(50); // Titrash
+            showToast(); // Xabar
+
+            setTimeout(() => {
+                const link = `https://t.me/${ADMIN_USERNAME}?text=Salom,%20men%20${item.name}%20sotib%20olmoqchiman.%20Narxi:%20${item.price}%20so‘m`;
+                window.open(link, '_blank');
+            }, 800);
+        };
+
+        card.appendChild(btn);
+        container.appendChild(card);
+    }
+
+    // Ro'yxatlarni chiqarish
+    starsData.forEach(item => createCard(item, 'star', 'stars-list'));
+    premiumData.forEach(item => createCard(item, 'premium', 'premium-list'));
+
+    // --- FUNKSIYALAR ---
+    function handleTilt(e) {
+        const card = this;
+        const cardRect = card.getBoundingClientRect();
+        const centerX = cardRect.left + cardRect.width / 2;
+        const centerY = cardRect.top + cardRect.height / 2;
+        const mouseX = e.clientX - centerX;
+        const mouseY = e.clientY - centerY;
+        const rotateX = -mouseY / 10; 
+        const rotateY = mouseX / 10;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+    }
+
+    function resetTilt() {
+        this.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale(1)`;
+    }
+
+    function showToast() {
+        const x = document.getElementById("notification");
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    }
+</script>
+
+</body>
+</html>
